@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Projekt Michał Dziwik 3i</title>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+
+<body>
+  <div id="zegar">
+  <p id="zegarek" ></p>
+  <p id="data"></p>
+</div>
+
+<div class="kal">
+      <div class="wynik">
+          <p id="wyrazenie"></p>
+          <p id="wynik"></p>
+       </div>
+       <button class="col" onclick="acMD()">AC</button>
+       <button onclick="delMD()">DEL</button>
+       <button  onclick="pierwiastekMD()">√</button>
+       <button  onclick="operatorMD('/')">÷</button>
+       <button onclick="wpisywanieMD('1')" >1</button>
+       <button onclick="wpisywanieMD('2')" >2</button>
+       <button  onclick="wpisywanieMD('3')">3</button>
+       <button  onclick="operatorMD('**')">^</button>
+       <button  onclick="operatorMD('*')">&times </button>
+       <button  onclick="wpisywanieMD('4')">4</button>
+       <button  onclick="wpisywanieMD('5')">5</button>
+       <button  onclick="wpisywanieMD('6')">6</button>
+       <button  onclick="odwMD()">1/χ</button>
+       <button  onclick="operatorMD('-')">-</button>
+       <button  onclick="wpisywanieMD('7')">7</button>
+       <button  onclick="wpisywanieMD('8')">8</button>
+       <button  onclick="wpisywanieMD('9')">9</button>
+       <button  onclick="logMD()">log</button>
+       <button class="row" onclick="operatorMD('+')">+</button>
+       <button onclick="dotMD()">•</button>
+       <button onclick="wpisywanieMD('0')">0</button>
+       <button class="col" onclick="wynikMD()">=</button>
+    </div>
+
+
+
+
+
+<script type="text/javascript">
+
+function zegarMD() {
+
+var data = new Date();
+var godzina = data.getHours();
+var min = data.getMinutes();
+var sek = data.getSeconds();
+
+document.getElementById("zegarek").innerHTML = ""+godzina+((min<10)?":0":":")+min+((sek<10)?":0":":")+sek;
+
+setTimeout("zegarMD()", 1000);
+
+var miesiac = data.getMonth();
+var dzien_tyg = data.getDay();
+var dzien = data.getDate();
+var rok = data.getFullYear();
+
+weekdays = ["Niedziela","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota"];
+miesiace = ["stycznia", "lutego","marca", "kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
+
+document.getElementById("data").innerHTML = weekdays[dzien_tyg]+" "+dzien+" "+miesiace[miesiac]+" "+rok+"r.";
+
+}
+/*kalkulator*/
+function acMD(){
+    document.getElementById('wynik').innerHTML = " ";
+    document.getElementById('wyrazenie').innerHTML = " ";
+}
+
+function delMD(){
+str = document.getElementById('wynik').innerHTML;
+
+str1 = str.substring(0, str.length - 1);
+document.getElementById('wynik').innerHTML =str1;
+}
+
+function wpisywanieMD(arg){
+    document.getElementById('wynik').innerHTML += arg;
+
+}
+function dotMD(){
+
+  str = document.getElementById('wynik').innerHTML;
+  if(str.includes(".")){
+    window.alert("Nie możesz wpisać kolejnej kropki");
+  }else{
+  wpisywanieMD(".");
+  }
+}
+function operatorMD(arg){
+  str = document.getElementById('wynik').innerHTML;
+  document.getElementById('wynik').innerHTML = "";
+  document.getElementById('wyrazenie').innerHTML += str+arg;
+
+}
+
+
+function wynikMD(){
+  x = document.getElementById('wynik').innerHTML;
+  y = document.getElementById('wyrazenie').innerHTML;
+  if(x == "")
+  {
+    x = 0;
+  }
+  result = eval(y+x);
+
+  document.getElementById('wynik').innerHTML = result;
+  y = document.getElementById('wyrazenie').innerHTML = "";
+}
+
+function pierwiastekMD(){
+  x = eval(document.getElementById('wynik').innerHTML);
+  if(x<0){
+    window.alert("Nie można pierwiastkować ujemnej leczby");
+    document.getElementById('wynik').innerHTML = "";
+    document.getElementById('wyrazenie').innerHTML = "";
+  }else{
+
+  result = Math.sqrt(x);
+  document.getElementById('wynik').innerHTML = result;
+}
+}
+function logMD(){
+    x = document.getElementById('wynik').innerHTML;
+    if(eval(x) >= 0){
+    result = Math.log(eval(x));
+    document.getElementById('wynik').innerHTML = result;
+  }else {
+    window.alert("Nie można logarytmować liczy ujemnej");
+    document.getElementById('wynik').innerHTML = "";
+  }
+}
+function odwMD(){
+  x = document.getElementById('wynik').innerHTML;
+  result = 1 / eval(x);
+  document.getElementById('wynik').innerHTML = result;
+}
+
+
+zegarMD();
+</script>
+
+<div id="sliderContainer">
+<img id="slider" src="1.jpg" />
+
+
+<div class="button_cont" align="center" id="r"><a id="bf" onclick="sliderMD(0)"class="example_c" >Poprzednie</a></div>
+<div class="button_cont" align="center" id="f"><a id="br"onclick="sliderMD(1)" class="example_c" >Następne</a></div>
+</div>
+
+<script>
+  var i = 0;
+  listOfPhotos = ["1.jpg", "2.jpg", "3.jpg", "4.jpg"];
+
+  function sliderMD(move){
+
+  if(move == 1){
+		if(i == 3){
+	i = 0;
+	changePhotoMD(i);
+	}
+	i +=1;
+	changePhotoMD(i);
+
+	}
+	else{
+
+	if(i == 0){
+	     i = 4;
+	  }
+	i -= 1;
+	changePhotoMD(i);
+    }
+  }
+
+  function changePhotoMD(elementInList){
+		document.getElementById("slider").src = listOfPhotos[elementInList];
+  }
+
+  function autoMoveMD(){
+
+			sliderMD(1);
+
+
+  }
+  window.onload = autoMove;
+	setInterval(autoMove,5000);
+  </script>
+
+
+  <div id="footer">Michał Dziwik 3i gr1</div>
+</body>
+</html>
